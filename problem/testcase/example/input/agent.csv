@@ -1,9 +1,0 @@
-id,name,password,phone,is_active
-1,"Drogerie Wien",$2a$04$sdXwbpWPpelofkNfGaheRu3ijHjW3oqWItNKbDkwJ6mfNasdkflasD,010-123-5678,1
-2,"Fenelia Washbrook",$2a$04$sdXwbpWPpelofkNfGaheRu3ijHjW3oqWItNKbDkwJ6mfN4Y3nuUkW,496-351-5005,1
-3,"Chariot Cleeton",$2a$04$LOJyk2jfC/87GkG9ZO1HwebgJ6bXt87KtEJcBN80S9C2tiSZBk2bC,860-996-7813,0
-4,"Robbi Thomson",$2a$04$yhg0gO8YSivENWZ9iRpuou6qrWTwVkDU76zdVk5bJLso9hQqVSHdu,976-894-3107,0
-5,"Cyndia Ivasechko",$2a$04$tWRrkQWGPSwqGlrlZp2z9.KBYbEbRQSREhL8.rfcx2jhsUq8h1JHO,105-429-7728,0
-6,"Joleen Goodbar",$2a$04$jPfALWkbc0ObBchiTL3e0OTb.BFmEKUQCAc0ogdakrdHYhqxZJlGC,476-337-9583,0
-7,"Jacki Didball",$2a$04$P1ba7WA92llvfIX0KkHNe.FPiEd./0GuWYZChDuoch3wqcB2UAnGe,476-871-5968,1
-8,"Lou Barrs",$2a$04$1mdS1Sv/NdN7qKlqSY/P2eDQoZGnpTLflyEMqbBUdGKREnAzMvSGK,506-450-2857,0
