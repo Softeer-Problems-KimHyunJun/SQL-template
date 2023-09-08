@@ -1,6 +1,8 @@
-api-version: 버전
 name: 제목
 item-body: '문제 설명'
+description : '문제 해설'
+level : 난이도
+time : 권장 풀이 시간
 databases:
   - kind: postgresql
     code-stub: '베이스 코드'
@@ -51,5 +53,8 @@ solutions:
     - type: evaluation
       code: "솔루션 SQL"
   oracle:
+    - type: evaluation
+      code: "솔루션 SQL"
+  mariadb:
     - type: evaluation
       code: "솔루션 SQL"
