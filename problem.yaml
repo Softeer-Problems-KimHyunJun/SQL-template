@@ -1,0 +1,98 @@
+api-version: v1
+databases: 
+  - kind: postgresql 
+    code-stub: ' '
+  - kind: mariadb
+    code-stub: ' '
+  - kind: oracle
+    code-stub: ' '
+schema:
+  tables:
+    - name: car_model
+      columns:
+        - name: model_id
+          type: int
+          comment: '차량 모델 ID'
+        - name: model_name
+          type: varchar
+          comment: '차량 모델 이름'
+    - name: country_price
+      columns:
+        - name: price_id
+          type: int
+          comment: '가격 ID'
+        - name: model_id
+          type: int
+          comment: '차량 모델 ID'
+        - name: price
+          type: int
+          comment: '모델 가격'
+        - name: currency
+          type: varchar
+          comment: '화폐 단위'
+    - name: dollar_exchange_rate
+      columns:
+        - name: currency
+          type: varchar
+          comment: '화폐 단위'
+        - name: rate_to_usd
+          type: int
+          comment: 'USD 대비 달러 환율'
+  expected:
+    columns:
+      - name: model_name
+        type: varchar
+        comment: '차량 모델 이름'
+      - name: price_in_usd
+        type: int
+        comment: 'USD 기준 가격'
+cases:
+  - title: EXAMPLE TESTCASE
+    example: true
+    expected:
+      data:
+        - ['Supercar ModelX', 150000]
+    tables:
+      - name: car_model
+        data:
+          - [1, 'Economy ModelA']
+          - [2, 'Supercar ModelX']
+      - name: country_price
+        data:
+          - [1, 1, 30000, 'USD']
+          - [2, 2, 120000, 'USD']
+          - [3, 1, 25000, 'EUR']
+          - [4, 2, 100000, 'EUR']
+      - name: dollar_exchange_rate
+        data:
+          - ['USD', 1]
+          - ['EUR', 1.5]
+  - title: TESTCASE 1
+    expected:
+      data:
+        - ['Luxury ModelZ', 300000]
+    tables:
+      - name: car_model
+        data:
+          - [3, 'Midrange ModelB']
+          - [4, 'Luxury ModelZ']
+      - name: country_price
+        data:
+          - [5, 3, 45000, 'USD']
+          - [6, 4, 300000, 'USD']
+          - [7, 3, 50000, 'JPY']
+          - [8, 4, 400000, 'JPY']
+      - name: dollar_exchange_rate
+        data:
+          - ['USD', 1]
+          - ['JPY', 0.5]
+solutions:
+  postgresql:
+    - type: evaluation
+      code: 'SELECT cm.model_name, MAX(cp.price * der.rate_to_usd) as price_in_usd FROM car_model cm JOIN country_price cp ON cm.model_id = cp.model_id JOIN dollar_exchange_rate der ON cp.currency = der.currency GROUP BY cm.model_name ORDER BY price_in_usd DESC LIMIT 1'
+  oracle:
+    - type: evaluation
+      code: 'SELECT cm.model_name, MAX(cp.price * der.rate_to_usd) as price_in_usd FROM car_model cm JOIN country_price cp ON cm.model_id = cp.model_id JOIN dollar_exchange_rate der ON cp.currency = der.currency GROUP BY cm.model_name ORDER BY price_in_usd DESC FETCH FIRST 1 ROWS ONLY'
+  mariadb:
+    - type: evaluation
+      code: 'SELECT cm.model_name, MAX(cp.price * der.rate_to_usd) as price_in_usd FROM car_model cm JOIN country_price cp ON cm.model_id = cp.model_id JOIN dollar_exchange_rate der ON cp.currency = der.currency GROUP BY cm.model_name ORDER BY price_in_usd DESC LIMIT 1'
