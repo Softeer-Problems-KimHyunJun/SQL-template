@@ -10,7 +10,7 @@
 달러 환율 정보는 'dollar_exchange_rate' 테이블에 저장되어 있습니다. 
 달러 환율을 고려하여 전 세계에서 USD 기준 가장 비싼 자동차의 모델 이름과 가격을 출력하라. 
 출력은 model_name, price_in_usd 순으로 하시오.
-![쩌니](./images/softeer.png)
+![쩌니](./images/softeer.jpg)
 
 ## skill
 order by, group by, join
