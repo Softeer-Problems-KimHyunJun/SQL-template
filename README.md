@@ -12,11 +12,8 @@
 출력은 model_name, price_in_usd 순으로 하시오.
 ![쩌니](./images/softeer.png)
 
-## 문제 태그
-max, order by, group by, join
-
 ## skill
-max, order by, group by, join
+order by, group by, join
 
 ### 권장 풀이 시간
 20m
