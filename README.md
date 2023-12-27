@@ -11,8 +11,8 @@
 달러 환율 정보는 dollar_exchange_rate 테이블에 저장되어 있습니다. 
 
 [문제 설명]
-달러 환율을 고려하여 전 세계에서 달러(USD) 기준 가장 비싼 자동차의 모델과 달러 가격을 출력하는 SQL을 작성하시오.<br>
-<img src="/images/softeer.jpg" width="300">
+달러 환율을 고려하여 전 세계에서 달러(USD) 기준 가장 비싼 자동차의 모델과 달러 가격을 출력하는 SQL을 작성하시오.
+<br><img src="/images/softeer.jpg" width="300">
 
 [출력 형식]
 - 컬럼 이름은 model_name, price_in_usd 으로 출력하세요.
