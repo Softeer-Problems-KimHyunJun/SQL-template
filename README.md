@@ -12,7 +12,7 @@
 
 [문제 설명]
 달러 환율을 고려하여 전 세계에서 달러(USD) 기준 가장 비싼 자동차의 모델과 달러 가격을 출력하는 SQL을 작성하시오.
-![car](./images/car.jpg)
+![car](./images/softeer.jpg)
 
 [출력 형식]
 - 컬럼 이름은 model_name, price_in_usd 으로 출력하세요.
