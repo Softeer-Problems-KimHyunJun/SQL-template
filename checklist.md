@@ -32,6 +32,6 @@
 
 
 ## 교차검수 특이사항
-[v] 1. 테이블 dollar_exchange_rate에서 rate_to_usd 에 대한 설명을 더 자세히 작성해주세요.
+- [x] 1. 테이블 dollar_exchange_rate에서 rate_to_usd 에 대한 설명을 더 자세히 작성해주세요.
 
-[ ] 2. country_price에서 currency 컬럼은 화폐단위 보다는 나라이름이 더 자연스러운 것 같습니다.
+- [ ] 2. country_price에서 currency 컬럼은 화폐단위 보다는 나라이름이 더 자연스러운 것 같습니다.
