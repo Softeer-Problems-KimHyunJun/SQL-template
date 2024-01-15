@@ -9,91 +9,151 @@ databases:
 name: 세계에서 가장 비싼 자동차 찾기
 schema:
   tables:
-    - name: car_model
+    - name: CAR_MODEL
       columns:
-        - name: model_id
-          type: int
-          comment: '차량 모델 ID'
-        - name: model_name
-          type: varchar
-          comment: '차량 모델 이름'
-    - name: country_price
+        - name: MODEL_ID
+          type: INT
+          comment: '자동차 모델 ID'
+        - name: MODEL_NAME
+          type: VARCHAR
+          comment: '자동차 모델 이름'
+    - name: CAR_PRICE
       columns:
-        - name: price_id
-          type: int
+        - name: PRICE_ID
+          type: INT
           comment: '가격 ID'
-        - name: model_id
-          type: int
-          comment: '차량 모델 ID'
-        - name: price
-          type: int
-          comment: '모델 가격'
-        - name: currency
-          type: varchar
+        - name: MODEL_ID
+          type: INT
+          comment: '자동차 모델 ID'
+        - name: PRICE
+          type: INT
+          comment: '자동차 가격'
+        - name: CURRENCY
+          type: VARCHAR
           comment: '화폐 단위'
-    - name: dollar_exchange_rate
+    - name: DOLLAR_EXCHANGE_RATE
       columns:
-        - name: currency
-          type: varchar
+        - name: CURRENCY
+          type: VARCHAR
           comment: '화폐 단위'
-        - name: rate_to_usd
-          type: int
-          comment: 'USD 대비 달러 환율'
+        - name: USD_EXCHNAGE_RATE
+          type: FLOAT
+          comment: '1달러 가격'
   expected:
     columns:
-      - name: model_name
-        type: varchar
-        comment: '차량 모델 이름'
-      - name: price_in_usd
-        type: int
-        comment: 'USD 기준 가격'
+      - name: MODEL_NAME
+        type: VARCHAR
+        comment: '자동차 모델 이름'
+      - name: PRICE_IN_USD
+        type: FLOAT
+        comment: 'USD 자동차 가격'
+
 cases:
   - title: EXAMPLE TESTCASE
     example: true
     expected:
       data:
-        - ['Supercar ModelX', 150000]
+        - ['Vortex Edge Model', 176470.59]
     tables:
-      - name: car_model
+      - name: CAR_MODEL
         data:
-          - [1, 'Economy ModelA']
-          - [2, 'Supercar ModelX']
-      - name: country_price
+          - [1, 'Electra Pulse Model']
+          - [2, 'Polaris Streamline Model']
+          - [3, 'Vortex Edge Model']
+          - [4, 'Eclipse Shadow Model']
+          - [5, 'Quantum Explorer X']
+      - name: CAR_PRICE
         data:
-          - [1, 1, 30000, 'USD']
-          - [2, 2, 120000, 'USD']
-          - [3, 1, 25000, 'EUR']
-          - [4, 2, 100000, 'EUR']
-      - name: dollar_exchange_rate
+          - [1, 1, 5000, 'USD']
+          - [2, 1, 5000000, 'KOR']
+          - [3, 2, 10000, 'USD']
+          - [4, 2, 100000, 'JPY']
+          - [5, 3, 15000, 'USD']
+          - [6, 3, 150000, 'EUR']
+      - name: DOLLAR_EXCHANGE_RATE
         data:
           - ['USD', 1]
-          - ['EUR', 1.5]
+          - ['EUR', 0.85]
+          - ['JPY', 100]
+          - ['KOR', 1500]
+
   - title: TESTCASE 1
     expected:
       data:
-        - ['Luxury ModelZ', 300000]
+        - ['Vortex Edge Model', 176470.59]
     tables:
-      - name: car_model
+      - name: CAR_MODEL
         data:
-          - [3, 'Midrange ModelB']
-          - [4, 'Luxury ModelZ']
-      - name: country_price
+          - [1, 'Electra Pulse Model']
+          - [2, 'Polaris Streamline Model']
+          - [3, 'Vortex Edge Model']
+          - [4, 'Eclipse Shadow Model']
+          - [5, 'Quantum Explorer X']
+      - name: CAR_PRICE
         data:
-          - [5, 3, 45000, 'USD']
-          - [6, 4, 300000, 'USD']
-          - [7, 3, 50000, 'JPY']
-          - [8, 4, 400000, 'JPY']
-      - name: dollar_exchange_rate
+          - [1, 1, 5000, 'USD']
+          - [2, 1, 5000000, 'KOR']
+          - [3, 2, 10000, 'USD']
+          - [4, 2, 100000, 'JPY']
+          - [5, 3, 15000, 'USD']
+          - [6, 3, 150000, 'EUR']
+      - name: DOLLAR_EXCHANGE_RATE
         data:
           - ['USD', 1]
-          - ['JPY', 0.5]
+          - ['EUR', 0.85]
+          - ['JPY', 100]
+          - ['KOR', 1500]
 solutions:
   postgresql:
     - type: evaluation
-      code: 'SELECT cm.model_name, MAX(cp.price * der.rate_to_usd) as price_in_usd FROM car_model cm JOIN country_price cp ON cm.model_id = cp.model_id JOIN dollar_exchange_rate der ON cp.currency = der.currency GROUP BY cm.model_name ORDER BY price_in_usd DESC LIMIT 1'
-  oracle:
-    - type: evaluation
-      code: 'SELECT cm.model_name, MAX(cp.price * der.rate_to_usd) as price_in_usd FROM car_model cm JOIN country_price cp ON cm.model_id = cp.model_id JOIN dollar_exchange_rate der ON cp.currency = der.currency GROUP BY cm.model_name ORDER BY price_in_usd DESC FETCH FIRST 1 ROWS ONLY'
+      code: |
+        SELECT
+            cm."MODEL_NAME",
+            ROUND(MAX(cp."PRICE" / der."USD_EXCHNAGE_RATE"),2) AS "PRICE_IN_USD"
+        FROM
+            CAR_MODEL cm
+        JOIN
+            CAR_PRICE cp ON cm."MODEL_ID" = cp."MODEL_ID"
+        JOIN
+            DOLLAR_EXCHANGE_RATE der ON cp."CURRENCY" = der."CURRENCY"
+        GROUP BY
+            cm."MODEL_NAME"
+        ORDER BY
+            "PRICE_IN_USD" DESC
+        LIMIT 1;
+
   mariadb:
     - type: evaluation
-      code: 'SELECT cm.model_name, MAX(cp.price * der.rate_to_usd) as price_in_usd FROM car_model cm JOIN country_price cp ON cm.model_id = cp.model_id JOIN dollar_exchange_rate der ON cp.currency = der.currency GROUP BY cm.model_name ORDER BY price_in_usd DESC LIMIT 1'
+      code: |
+        SELECT
+            cm.MODEL_NAME,
+            ROUND(MAX(cp.PRICE / der.USD_EXCHNAGE_RATE),2) AS PRICE_IN_USD
+        FROM
+            CAR_MODEL cm
+        JOIN
+            CAR_PRICE cp ON cm.MODEL_ID = cp.MODEL_ID
+        JOIN
+            DOLLAR_EXCHANGE_RATE der ON cp.CURRENCY = der.CURRENCY
+        GROUP BY
+            cm.MODEL_NAME
+        ORDER BY
+            PRICE_IN_USD DESC
+        LIMIT 1;
+
+  oracle:
+    - type: evaluation
+      code: |
+        SELECT
+            cm.MODEL_NAME,
+            ROUND(MAX(cp.PRICE / der.USD_EXCHNAGE_RATE),2) AS PRICE_IN_USD
+        FROM
+            CAR_MODEL cm
+        JOIN
+            CAR_PRICE cp ON cm.MODEL_ID = cp.MODEL_ID
+        JOIN
+            DOLLAR_EXCHANGE_RATE der ON cp.CURRENCY = der.CURRENCY
+        GROUP BY
+            cm.MODEL_NAME
+        ORDER BY
+            PRICE_IN_USD DESC
+        FETCH FIRST 1 ROW ONLY;
