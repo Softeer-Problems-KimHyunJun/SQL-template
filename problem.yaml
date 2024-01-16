@@ -6,7 +6,7 @@ databases:
     code-stub: ' '
   - kind: oracle
     code-stub: ' '
-name: 세계에서 가장 비싼 자동차 찾기
+name: 쩌니의 세계에서 가장 비싼 자동차 찾기
 schema:
   tables:
     - name: CAR_MODEL
@@ -51,9 +51,6 @@ schema:
 cases:
   - title: EXAMPLE TESTCASE
     example: true
-    expected:
-      data:
-        - ['Vortex Edge Model', 176470.59]
     tables:
       - name: CAR_MODEL
         data:
@@ -76,11 +73,10 @@ cases:
           - ['EUR', 0.85]
           - ['JPY', 100]
           - ['KOR', 1500]
-
+    expected:
+      data:
+        - ['Vortex Edge Model', 176470.59]
   - title: TESTCASE 1
-    expected:
-      data:
-        - ['Vortex Edge Model', 176470.59]
     tables:
       - name: CAR_MODEL
         data:
@@ -103,23 +99,26 @@ cases:
           - ['EUR', 0.85]
           - ['JPY', 100]
           - ['KOR', 1500]
+    expected:
+      data:
+        - ['Vortex Edge Model', 176470.59]
 solutions:
   postgresql:
     - type: evaluation
       code: |
         SELECT
-            cm."MODEL_NAME",
-            ROUND(MAX(cp."PRICE" / der."USD_EXCHNAGE_RATE"),2) AS "PRICE_IN_USD"
+            cm.MODEL_NAME,
+            ROUND(MAX(cp.PRICE / der.USD_EXCHNAGE_RATE),2) AS PRICE_IN_USD
         FROM
             CAR_MODEL cm
         JOIN
-            CAR_PRICE cp ON cm."MODEL_ID" = cp."MODEL_ID"
+            CAR_PRICE cp ON cm.MODEL_ID = cp.MODEL_ID
         JOIN
-            DOLLAR_EXCHANGE_RATE der ON cp."CURRENCY" = der."CURRENCY"
+            DOLLAR_EXCHANGE_RATE der ON cp.CURRENCY = der.CURRENCY
         GROUP BY
-            cm."MODEL_NAME"
+            cm.MODEL_NAME
         ORDER BY
-            "PRICE_IN_USD" DESC
+            PRICE_IN_USD DESC
         LIMIT 1;
 
   mariadb:
